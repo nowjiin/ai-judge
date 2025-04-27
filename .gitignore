@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Environments
+.env
+.venv/
+venv/
+ENV/
+env/
+*.env
+
+# VSCode
+.vscode/
+
+# IDE settings
+.idea/
+*.iml
+
+# System
+.DS_Store
+Thumbs.db
+
+# Uvicorn logs
+*.log
