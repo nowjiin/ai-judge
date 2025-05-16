@@ -5,6 +5,10 @@ from app.models.user_model import User
 from app.schemas.auth_schema import UserCreate
 from app.core.security import hash_password, verify_password, create_access_token
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 # ✅ 회원가입 로직
 def create_user(db: Session, user_data: UserCreate) -> str:
@@ -21,6 +25,7 @@ def create_user(db: Session, user_data: UserCreate) -> str:
     # 이메일 중복 확인
     existing_user = db.query(User).filter(User.email == user_data.email).first()
     if existing_user:
+        logger.warning(f"❌ 회원가입 실패 - 중복 이메일: {user_data.email}")
         raise ValueError("Email already registered")
 
     # 비밀번호 해시화
@@ -43,6 +48,7 @@ def create_user(db: Session, user_data: UserCreate) -> str:
     db.commit()
     db.refresh(new_user)
 
+    logger.info(f"✅ 회원가입 성공 - {user_data.email}")
     # JWT 토큰 생성
     return create_access_token({"sub": new_user.email})
 
@@ -58,11 +64,14 @@ def authenticate_user(db: Session, email: str, password: str) -> str | None:
     # 이메일로 사용자 조회
     user = db.query(User).filter(User.email == email).first()
     if not user:
+        logger.warning(f"❌ 로그인 실패 - 존재하지 않는 이메일: {email}")
         return None
 
     # 비밀번호 확인
     if not verify_password(password, user.hashed_password):
+        logger.warning(f"❌ 로그인 실패 - 비밀번호 불일치: {email}")
         return None
 
     # 로그인 성공 → JWT 토큰 반환
+    logger.info(f"✅ 로그인 성공 - {email}")
     return create_access_token({"sub": user.email})

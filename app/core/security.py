@@ -10,7 +10,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 # ✅ JWT 설정값
 SECRET_KEY = settings.SECRET_KEY  # ✅ .env에서 가져온 값
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60  # 토큰 유효 시간 (분)
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 30  # 토큰 유효 시간 (분)
 
 
 # ✅ 비밀번호 해싱 함수

@@ -37,15 +37,15 @@ def custom_openapi():
         return app.openapi_schema
 
     admin_test_token = (
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
-        "eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiZXhwIjoxNzQ3MjEyNDYwfQ."
-        "_YDytMAkJ0trVNJ7hHI_9UKRtb9g9gbW7hSMFSmnGkg"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+        ".eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiZXhwIjoxNzQ5OTYxMTI2fQ"
+        ".mrZ0zDpAoceAFb5zyMS-Pi4afAfTpzr9f9Oq30seCVs"
     )
 
     user_test_token = (
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
-        "eyJzdWIiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImV4cCI6MTc0NzI4MzU2Mn0."
-        "kqCPT9CmLaLD6SENEzlXIx0aABEPjo4UW0B_q1vsCxs"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+        ".eyJzdWIiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImV4cCI6MTc0OTk2MTE3OX0"
+        "._FqUJ6DDNU0aHJbeG7iO6X6t-5mAc-CkE58GyEtKxzw"
     )
 
     openapi_schema = get_openapi(
