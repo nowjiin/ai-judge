@@ -55,9 +55,9 @@ def custom_openapi():
             "### 🧠 AI Judge API\n"
             "이 API는 JWT 기반 인증을 사용합니다.\n\n"
             "🔐 테스트용 관리자 토큰 :\n\n"
-            f"`Bearer {admin_test_token}`"
+            f"`{admin_test_token}`"
             "\n\n🔐 테스트용 사용자 토큰 :\n\n"
-            f"`Bearer {user_test_token}`"
+            f"`{user_test_token}`"
         ),
         routes=app.routes,
     )

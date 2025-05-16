@@ -24,6 +24,7 @@ class SubmissionStatus(str, enum.Enum):
 
 class Submission(Base):
     __tablename__ = "submissions"
+
     # ✅ PK
     id = Column(Integer, primary_key=True, index=True)
     # ✅ user id
@@ -36,6 +37,7 @@ class Submission(Base):
     title = Column(String(100), nullable=False)
     # ✅ 프로젝트 설명 : 최대 1000자
     description = Column(String(1000), nullable=True)
+
     # ✅ 제출 시간
     submitted_at = Column(DateTime, default=now_kst)
     # ✅ 채점 상태
@@ -48,3 +50,5 @@ class Submission(Base):
     feedback_visible = Column(Boolean, default=False)
     # 관계설정
     repositories = relationship("Repository", back_populates="submission", cascade="all, delete")
+    criteria = relationship("EvaluationCriterion", back_populates="submission", cascade="all, delete")
+    repository_snapshots = relationship("RepositorySnapshot", back_populates="submission", cascade="all, delete")

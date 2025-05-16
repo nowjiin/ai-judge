@@ -1,27 +1,25 @@
-# app/services/github_service.py
-
 # GitHub API를 사용하기 위한 라이브러리
 from github import Github, GithubException
 
-# 설정 값 (예: GITHUB_TOKEN) 불러오기
+# 설정값 로딩 (예: GITHUB_TOKEN)
 from app.core.config import settings
 
-# 타입 힌팅용
+# 타입 힌팅
 from typing import Dict
 
-# 정규 표현식 검사용
+# 정규 표현식
 import re
 
-# 로그용
+# 로깅 설정
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-# GitHub API를 통해 저장소 코드를 가져오는 서비스 클래스
+# GitHub 저장소로부터 코드 파일을 수집하는 서비스 클래스
 class GitHubService:
     def __init__(self):
-        # GITHUB_TOKEN이 있으면 인증된 요청 사용 (rate limit ↑)
+        # 인증 토큰이 설정되어 있으면 인증된 GitHub API 사용
         if settings.GITHUB_TOKEN:
             logger.info("🔐 인증된 GitHub API 사용 설정됨")
             self.github = Github(settings.GITHUB_TOKEN)
@@ -32,8 +30,8 @@ class GitHubService:
     @staticmethod
     def _extract_repo_info(repo_url: str) -> tuple[str, str]:
         """
-        GitHub URL에서 owner와 repo 이름을 추출합니다.
-        예: https://github.com/user/repo → ('user', 'repo')
+        GitHub URL에서 저장소 소유자(owner)와 저장소 이름(repo)을 추출합니다.
+        예: 'https://github.com/user/repo' → ('user', 'repo')
         """
         parts = repo_url.strip('/').split('/')
         if len(parts) < 2:
@@ -43,7 +41,8 @@ class GitHubService:
     @staticmethod
     def _should_ignore_file(path: str) -> bool:
         """
-        특정 경로가 무시 대상인 파일/폴더인지 판단합니다.
+        무시해야 할 파일 또는 디렉토리인지 확인합니다.
+        (예: 바이너리, 캐시 파일, 환경설정 파일 등)
         """
         ignore_patterns = [
             r'\.(git|DS_Store|pyc|pyo|pyd|so|dylib|dll|exe|bin|obj|o|a|lib)$',
@@ -65,7 +64,8 @@ class GitHubService:
     @staticmethod
     def _is_binary_file(content: str) -> bool:
         """
-        해당 문자열이 바이너리 파일인지 확인 (디코딩 실패 여부 기준)
+        문자열이 바이너리 데이터인지 확인합니다.
+        (UTF-8 인코딩 실패 여부를 통해 판단)
         """
         try:
             content.encode('utf-8')
@@ -75,20 +75,21 @@ class GitHubService:
 
     def fetch_repository_files(self, repo_url: str) -> Dict[str, str]:
         """
-        GitHub 저장소의 모든 코드 파일을 가져옵니다.
-        반환 형식은 { 경로: 코드내용 }의 딕셔너리입니다.
+        주어진 GitHub 저장소에서 모든 코드 파일을 가져옵니다.
+        무시 대상 파일 및 바이너리 파일은 제외합니다.
 
         Args:
             repo_url (str): GitHub 저장소 URL
 
         Returns:
-            Dict[str, str]: 파일 경로와 내용 딕셔너리
+            Dict[str, str]: { 파일 경로: 코드 내용 } 형태의 딕셔너리 반환
 
         Raises:
-            ValueError: URL 파싱 실패, GitHub 접근 실패 등의 예외
+            ValueError: 유효하지 않은 URL이거나 API 오류 발생 시
         """
         logger.info(f"📥 GitHub 레포 fetch 시작: {repo_url}")
         try:
+            # URL에서 owner와 repo 이름 추출
             owner, repo_name = self._extract_repo_info(repo_url)
             repo = self.github.get_repo(f"{owner}/{repo_name}")
             files = {}
@@ -97,6 +98,7 @@ class GitHubService:
                 for content in contents:
                     path = f"{current_path}/{content.name}" if current_path else content.name
 
+                    # 무시 대상 파일/디렉토리는 스킵
                     if self._should_ignore_file(path):
                         logger.debug(f"🚫 무시된 파일: {path}")
                         continue
@@ -121,6 +123,7 @@ class GitHubService:
                             logger.warning(f"📁 디렉토리 접근 실패: {path} → {str(e)}")
                             continue
 
+            # 루트 디렉토리부터 시작하여 재귀적으로 탐색
             root_contents = repo.get_contents("")
             process_contents(root_contents)
 
@@ -141,5 +144,5 @@ class GitHubService:
             raise ValueError(f"Error fetching repository: {str(e)}")
 
 
-# 싱글톤 인스턴스 (전역에서 사용 가능)
+# 전역에서 사용할 수 있는 GitHubService 싱글톤 인스턴스
 github_service = GitHubService()

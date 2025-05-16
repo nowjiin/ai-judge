@@ -7,6 +7,8 @@ from app.api.repo import fetch_code
 # 사용자용
 from app.api.submission import create_submission
 from app.api.submission import get_my_submission
+from app.api.submission import get_my_submission_by_id
+
 # 관리자(개발자용)
 from app.api.admin import assign_role, get_submission
 # Judge 용
@@ -18,6 +20,7 @@ router = APIRouter()
 # submission 라우터 (레포 주소 제출, 팀명, 등등)
 router.include_router(get_my_submission.router, tags=["submission"])  # 토큰으로 내가 제출한 내용 조회
 router.include_router(create_submission.router, prefix="/submission", tags=["submission"])  # 토큰으로 제출
+router.include_router(get_my_submission_by_id.router, tags=["submission"])  # 내 체점 결과 보기
 router.include_router(auth_router.router, prefix="/auth", tags=["auth"])  # 회원가입, 로그인
 router.include_router(check_role.router, prefix="/auth", tags=["role-check"])  # ✅ 역할 확인 등 권한 API
 router.include_router(fetch_code.router, prefix="/fetch-code", tags=["fetch"])  # 🧠 GitHub 코드 평가 fetch
