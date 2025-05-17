@@ -5,9 +5,10 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     # 환경변수에서 읽어올 설정값들 정의
-    DATABASE_URL: str
+    DATABASE_URL: str = ""
     GITHUB_TOKEN: str = ""
-    SECRET_KEY: str
+    SECRET_KEY: str = ""
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 1420
 
     PROJECT_NAME: str = "AI Judge"
     VERSION: str = "1.0.0"
