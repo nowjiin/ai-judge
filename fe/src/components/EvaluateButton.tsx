@@ -1,67 +1,66 @@
 interface EvaluateButtonProps {
-  checked?: boolean;
-  onChange?: (checked: boolean) => void;
+  onClick?: () => void;
+  text?: string;
+  isActive?: boolean;
 }
 
 export function EvaluateButton({
-  checked = false,
-  onChange,
+  onClick,
+  text = 'Code Quality',
+  isActive = false,
 }: EvaluateButtonProps) {
   return (
     <button
-      onClick={() => onChange?.(!checked)}
+      onClick={onClick}
       className={`
         inline-flex p-[11.226px_16.839px] flex-col items-start gap-[14.032px]
         rounded-[140.323px] border-[0.702px] border-[#6473A0]
-        bg-[rgba(67,67,67,0.04)] transition-all duration-200
-        hover:bg-[rgba(67,67,67,0.08)]
+        transition-all duration-200
+        ${
+          isActive
+            ? 'bg-[#6473A0] text-white'
+            : 'bg-[rgba(67,67,67,0.04)] text-[#6473A0] hover:bg-[rgba(67,67,67,0.08)]'
+        }
+        group
       `}
     >
       <div className='flex items-center gap-2'>
-        {/* Plus sign */}
-        <div className='w-4 h-4 flex items-center justify-center'>
+        {/* Plus sign in circle */}
+        <div
+          className={`
+          w-6 h-6 rounded-full border-[0.702px] 
+          ${isActive ? 'border-white' : 'border-[#6473A0]'}
+          flex items-center justify-center
+          transition-transform duration-300
+          group-hover:rotate-90
+        `}
+        >
           <svg
-            width='16'
-            height='16'
-            viewBox='0 0 16 16'
+            width='12'
+            height='12'
+            viewBox='0 0 12 12'
             fill='none'
             xmlns='http://www.w3.org/2000/svg'
+            className='transition-transform duration-300'
           >
             <path
-              d='M8 3.33334V12.6667M3.33333 8H12.6667'
-              stroke='#6473A0'
+              d='M6 2.5V9.5M2.5 6H9.5'
+              stroke={isActive ? 'white' : '#6473A0'}
               strokeWidth='1.5'
               strokeLinecap='round'
               strokeLinejoin='round'
             />
           </svg>
         </div>
-        {/* Checkbox */}
-        <div
+        {/* Text */}
+        <span
           className={`
-          w-4 h-4 rounded border-[0.702px] border-[#6473A0]
-          flex items-center justify-center
-          ${checked ? 'bg-[#6473A0]' : 'bg-transparent'}
+          font-pretendard text-[15.435px] font-bold leading-[22.452px] tracking-[-0.386px]
+          ${isActive ? 'text-white' : 'text-[#6473A0]'}
         `}
         >
-          {checked && (
-            <svg
-              width='12'
-              height='12'
-              viewBox='0 0 12 12'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                d='M2 6L4.5 8.5L10 3'
-                stroke='white'
-                strokeWidth='1.5'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-              />
-            </svg>
-          )}
-        </div>
+          {text}
+        </span>
       </div>
     </button>
   );

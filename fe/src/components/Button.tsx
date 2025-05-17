@@ -1,12 +1,19 @@
 interface ButtonProps {
-  disabled?: boolean;
   onClick?: () => void;
   children: React.ReactNode;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
 }
 
-export function Button({ disabled = false, onClick, children }: ButtonProps) {
+export function Button({
+  onClick,
+  children,
+  type = 'button',
+  disabled = false,
+}: ButtonProps) {
   return (
     <button
+      type={type}
       onClick={onClick}
       disabled={disabled}
       className={`

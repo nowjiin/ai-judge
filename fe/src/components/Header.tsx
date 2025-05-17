@@ -10,7 +10,7 @@ export function Header() {
             <div className='flex-shrink-0'>
               <Link
                 to='/'
-                className='text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent'
+                className='text-2xl font-pretendard font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent'
               >
                 SnapCode
               </Link>
@@ -21,25 +21,25 @@ export function Header() {
           <div className='flex items-center space-x-8'>
             <Link
               to='/'
-              className='text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-bold transition-colors duration-200'
+              className='font-pretendard text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-bold transition-colors duration-200'
             >
               Home
             </Link>
             <Link
               to='/business'
-              className='text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-bold transition-colors duration-200'
+              className='font-pretendard text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-bold transition-colors duration-200'
             >
               Business
             </Link>
             <Link
               to='/personal'
-              className='text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-bold transition-colors duration-200'
+              className='font-pretendard text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-bold transition-colors duration-200'
             >
               Personal
             </Link>
             <Link
               to='/mypage'
-              className='flex items-center text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-bold transition-colors duration-200'
+              className='flex items-center font-pretendard text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-bold transition-colors duration-200'
             >
               <svg
                 className='w-5 h-5 mr-2'

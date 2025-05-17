@@ -1,23 +1,23 @@
 import type { ChangeEvent } from 'react';
 
-interface InputBoxProps {
+interface DescriptionInputProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
-  title?: string;
   maxLength?: number;
+  title?: string;
   required?: boolean;
 }
 
-export function InputBox({
+export function DescriptionInput({
   value,
   onChange,
-  placeholder = 'Enter text...',
+  placeholder = 'Enter description...',
+  maxLength = 1000,
   title,
-  maxLength = 100,
   required = false,
-}: InputBoxProps) {
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+}: DescriptionInputProps) {
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     onChange(e.target.value);
   };
 
@@ -35,19 +35,19 @@ export function InputBox({
           </div>
         </div>
       )}
-      <input
-        type='text'
+      <textarea
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
         maxLength={maxLength}
         required={required}
         className={`
-          w-full p-4
+          w-full min-h-[120px] p-4
           rounded-lg border-[0.702px]
           bg-[rgba(67,67,67,0.04)]
           text-[#6473A0] placeholder-[#6473A0]/50
           font-pretendard text-[15.435px] leading-[22.452px] tracking-[-0.386px]
+          resize-none
           transition-all duration-200
           focus:outline-none focus:border-[#6473A0] focus:bg-[rgba(67,67,67,0.08)]
           hover:bg-[rgba(67,67,67,0.08)]
