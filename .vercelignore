@@ -1,0 +1,12 @@
+# .vercelignore
+
+# 백엔드 무시 (FastAPI)
+be/
+
+# GitHub Actions 및 메타 파일
+.github/
+.gitignore
+docker-compose.yml
+.env
+.env.docker
+README.md
